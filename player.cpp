@@ -18,6 +18,8 @@ Player::Player(std::string id)
 
 	_damage_invulnerability_timer = 0;
 	_damage_invulnerability_length = 1000;
+	_attack_range = 95.f;
+	_knockback_strength = 20.f;
 }
 
 Player::~Player()
@@ -113,7 +115,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 					continue;
 				}
 
-				Circle_2D attack_collider = Circle_2D(50.f, _collider.translation() + _translation);
+				Circle_2D attack_collider = Circle_2D(_attack_range, _collider.translation() + _translation);
 				Circle_2D enemy_collider = Circle_2D(game_object->collider().radius(),
 					game_object->collider().translation() + game_object->translation());
 				float intersection_depth = attack_collider.intersection_depth(enemy_collider);
@@ -135,7 +137,13 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 
 				if (intersection_depth > 0.0f)
 				{
-					game_object->damage(10);
+					if (game_object->damage(10))
+					{
+						Vector_2D knockback = ((game_object->translation() + game_object->collider().translation()) - (_translation + _collider.translation()));
+						knockback.normalize();
+						knockback.scale(_mass/(_mass + game_object->mass()) * _knockback_strength);
+						game_object->set_translation(game_object->translation() + knockback);
+					}
 				}
 			}
 		}
@@ -199,13 +207,15 @@ void Player::pop_state(Assets* assets)
 	handle_enter_state(_state.top(), assets);
 }
 
-void Player::damage(int damage)
+bool Player::damage(int damage)
 {
 	if (_damage_invulnerability_timer == 0 && damage > 0)
 	{
 		_health -= damage;
 		_damage_invulnerability_timer = _damage_invulnerability_length;
+		return true;
 	}
+	return false;
 }
 
 void Player::handle_enter_state(State state, Assets* assets)

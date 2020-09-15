@@ -14,8 +14,3 @@ Dino::~Dino()
 void Dino::simulate_AI(Uint32, Assets*, Input*, Scene*)
 {
 }
-
-void Dino::damage(int)
-{
-	_translation += Vector_2D(10.f, 0.f);
-}

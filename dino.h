@@ -9,5 +9,4 @@ public:
 	~Dino();
 
 	virtual void simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input* input, Scene* scene) override;
-	virtual void damage(int damage) override;
 };

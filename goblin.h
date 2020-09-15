@@ -31,7 +31,4 @@ private:
 
 	Uint32 _attack_timer;
 	bool _attack_triggered;
-
-	Uint32 _damage_timer;
-	Uint32 _damage_length;
 };

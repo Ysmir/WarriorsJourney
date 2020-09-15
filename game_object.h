@@ -30,7 +30,7 @@ public:
 	int height();
 
 	float mass();
-	virtual void damage(int damage);
+	virtual bool damage(int damage);
 
 	virtual void simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input* input, Scene* scene) = 0;
 	virtual void simulate_physics(Uint32 milliseconds_to_simulate, Assets* assets, Scene* scene);

@@ -26,7 +26,7 @@ public:
 	void push_state(State state, Assets* assets);
 	void pop_state(Assets* assets);
 
-	virtual void damage(int damage) override;
+	virtual bool damage(int damage) override;
 
 private:
 	void handle_enter_state(State state, Assets* assets);
@@ -40,4 +40,6 @@ private:
 
 	Uint32 _attack_timer;
 	bool _attack_triggered;
+	float _attack_range;
+	float _knockback_strength;
 };

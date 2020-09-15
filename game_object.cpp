@@ -70,10 +70,11 @@ float Game_Object::mass()
 	return _mass;
 }
 
-void Game_Object::damage(int damage)
+bool Game_Object::damage(int damage)
 {
 	_health -= damage;
 	_damage_timer = _damage_length;
+	return true;
 }
 
 void Game_Object::simulate_physics(Uint32 milliseconds_to_simulate, Assets*, Scene* scene)
@@ -123,11 +124,11 @@ void Game_Object::render(Uint32, Assets* assets, SDL_Renderer* renderer, Configu
 	const float PI = 3.14159265f;
 	if (_velocity.magnitude() > 0)
 	{
-		if (abs(_velocity.angle()) <= (PI / 2.f))
+		if (abs(_velocity.angle()) < (PI / 2.f))
 		{
 			_flip = SDL_FLIP_NONE;
 		}
-		else
+		else if (abs(_velocity.angle()) > (PI / 2.f))
 		{
 			_flip = SDL_FLIP_HORIZONTAL;
 		}

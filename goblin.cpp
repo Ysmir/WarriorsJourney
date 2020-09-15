@@ -10,8 +10,8 @@ Goblin::Goblin(std::string id)
 	_translation = Vector_2D(0, 0);
 	_velocity = Vector_2D(0.f, 0.f);
 
-	_collider.set_translation(Vector_2D(_width / 2.0f, _height / 1.5f));
-	_collider.set_radius(_width / 3.f);
+	_collider.set_translation(Vector_2D(_width / 2.0f, _height / 1.6f));
+	_collider.set_radius(_width / 4.f);
 
 	_state.push(State::Idle);
 	_mass = 100.f;

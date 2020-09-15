@@ -1,2 +1,4 @@
 C:\Users\Keanu\source\repos\BasicGameEngineProgramming\SDLGameEngine\x64\Debug\SDLGameEngine.exe
 C:\Users\Keanu\source\repos\BasicGameEngineProgramming\SDLGameEngine\x64\Debug\SDLGameEngine.pdb
+D:\Documents\Visual Studio 2019\Projects\WarriorsJourney\WarriorsJourney\x64\Debug\SDLGameEngine.exe
+D:\Documents\Visual Studio 2019\Projects\WarriorsJourney\WarriorsJourney\x64\Debug\SDLGameEngine.pdb

@@ -118,7 +118,7 @@ Assets::Assets(SDL_Renderer* renderer)
 		_assets[attack_goblin_texture->id()] = attack_goblin_texture;
 		_animated_texture_ids.push_back(attack_goblin_texture->id());
 
-		Animated_Texture* death_goblin_texture = new Animated_Texture("Texture.Goblin.Death", "Assets/enemies/goblin_death.png", renderer, attack_frame_count, frame_duration_milliseconds, false);
+		Animated_Texture* death_goblin_texture = new Animated_Texture("Texture.Goblin.Death", "Assets/enemies/goblin_death.png", renderer, death_frame_count, frame_duration_milliseconds, false);
 		_assets[death_goblin_texture->id()] = death_goblin_texture;
 		_animated_texture_ids.push_back(death_goblin_texture->id());
 	}
