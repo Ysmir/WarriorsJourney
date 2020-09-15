@@ -136,9 +136,9 @@ void Engine::render(Uint32 milliseconds_to_simulate, Assets* assets, Scene* scen
 		exit(1);
 	}
 
-	const Uint8 red   = 127;
-	const Uint8 green = 255;
-	const Uint8 blue  = 0;
+	const Uint8 red   = scene->red();
+	const Uint8 green = scene->green();
+	const Uint8 blue  = scene->blue();
 	const Uint8 alpha = 255;
 
 	int render_color_result = SDL_SetRenderDrawColor(_renderer, red, green, blue, alpha);

@@ -32,6 +32,9 @@ public:
 	float mass();
 	virtual bool damage(int damage);
 
+	int max_health();
+	int current_health();
+
 	virtual void simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input* input, Scene* scene) = 0;
 	virtual void simulate_physics(Uint32 milliseconds_to_simulate, Assets* assets, Scene* scene);
 	virtual void render(Uint32 milliseconds_to_simulate, Assets* assets, SDL_Renderer* renderer, Configuration* config, Scene* scene);
@@ -50,7 +53,8 @@ protected:
 	int _height;
 	
 	float _mass;
-	int _health;
+	int _max_health;
+	int _current_health;
 
 	Uint32 _damage_timer;
 	Uint32 _damage_length;

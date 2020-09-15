@@ -5,15 +5,19 @@
 #include "portal_exit.h"
 #include "fire.h"
 #include "goblin.h"
+#include "user_interface.h"
 
 Game_Scene::Game_Scene()
 	: Scene("Game")
 {
-	Game_Object* snail = new Snail("Snail");
-	_game_objects[snail->id()] = snail;
-
 	Game_Object* player = new Player("Player");
 	_game_objects[player->id()] = player;
+
+	Game_Object* user_interface = new User_Interface();
+	_game_objects[user_interface->id()] = user_interface;
+
+	Game_Object* snail = new Snail("Snail");
+	_game_objects[snail->id()] = snail;
 
 	Game_Object* portal_entry = new Portal_Entry();
 	_game_objects[portal_entry->id()] = portal_entry;

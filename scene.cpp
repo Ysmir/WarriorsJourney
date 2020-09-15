@@ -7,7 +7,11 @@ Scene::Scene(std::string id)
 	: _camera_translation(0.f, 0.f)
 {
 	_id = id;
-	//_pause = false;
+	_pause = false;
+
+	_red = 127;
+	_green = 127;
+	_blue = 127;
 }
 
 Scene::~Scene()
@@ -55,4 +59,19 @@ void Scene::set_pause(bool pause)
 bool Scene::pause()
 {
 	return _pause;
+}
+
+Uint8 Scene::red()
+{
+	return _red;
+}
+
+Uint8 Scene::green()
+{
+	return _green;
+}
+
+Uint8 Scene::blue()
+{
+	return _blue;
 }

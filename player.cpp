@@ -14,7 +14,8 @@ Player::Player(std::string id)
 	_collider.set_translation(Vector_2D(_width / 2.0f, _height * 0.7f));
 	
 	_state.push(State::Idle);
-	_health = 100;
+	_max_health = 100;
+	_current_health = 100;
 
 	_damage_invulnerability_timer = 0;
 	_damage_invulnerability_length = 1000;
@@ -49,7 +50,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 	switch (_state.top())
 	{
 	case State::Idle:
-		if (_health <=0) {
+		if (_current_health <=0) {
 			push_state(State::Death, assets);
 		}
 		else if (input->is_button_state(Input::Button::ATTACK, Input::Button_State::DOWN))
@@ -66,7 +67,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		}
 		break;
 	case State::Walking:
-		if (_health <= 0) {
+		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
 		else if (input->is_button_state(Input::Button::ATTACK, Input::Button_State::DOWN))
@@ -83,7 +84,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		}
 		break;
 	case State::Running:
-		if (_health <= 0) {
+		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
 		else if (input->is_button_state(Input::Button::ATTACK, Input::Button_State::DOWN))
@@ -101,7 +102,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		break;
 	case State::Attack:
 		_attack_timer += milliseconds_to_simulate;
-		if (_health <= 0) {
+		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
 		else if (_attack_timer >= 360 && !_attack_triggered)
@@ -209,9 +210,9 @@ void Player::pop_state(Assets* assets)
 
 bool Player::damage(int damage)
 {
-	if (_damage_invulnerability_timer == 0 && damage > 0)
+	if (_damage_invulnerability_timer == 0 && damage > 0 && _current_health > 0)
 	{
-		_health -= damage;
+		_current_health -= damage;
 		_damage_invulnerability_timer = _damage_invulnerability_length;
 		return true;
 	}

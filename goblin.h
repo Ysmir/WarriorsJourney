@@ -31,4 +31,5 @@ private:
 
 	Uint32 _attack_timer;
 	bool _attack_triggered;
+	float _attack_range;
 };

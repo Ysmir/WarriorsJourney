@@ -15,9 +15,13 @@ Goblin::Goblin(std::string id)
 
 	_state.push(State::Idle);
 	_mass = 100.f;
-	_speed = 0.1f;
+	_speed = 0.01f;
+
+	_max_health = 30;
+	_current_health = _max_health;
 
 	_damage_length = 1000;
+	_attack_range = 35.f;
 }
 
 Goblin::~Goblin()
@@ -26,6 +30,7 @@ Goblin::~Goblin()
 
 void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*, Scene* scene)
 {
+	_velocity = Vector_2D(0, 0);
 
 	if (_damage_timer > 0)
 	{
@@ -51,7 +56,7 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 	switch (_state.top())
 	{
 	case State::Idle:
-		if (_health <= 0) {
+		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
 		else if (distance_to_player < 600.f)
@@ -60,18 +65,46 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		}
 		break;
 	case State::Walking:
-		if (_health <= 0) {
+		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
 		else if (distance_to_player < 100.f)
 		{
-			push_state(State::Walking, assets);
+			push_state(State::Attack, assets);
+		}
+		else
+		{
+			_velocity = (player->translation() + player->collider().translation()) - (_translation + _collider.translation());
+			_velocity.normalize();
+			_velocity.scale(_speed);
 		}
 		break;
 	case State::Attack:
 		_attack_timer += milliseconds_to_simulate;
-		if (_health <= 0) {
+		if (_current_health <= 0) {
 			push_state(State::Death, assets);
+		}
+		else if (_attack_timer >= 200 && !_attack_triggered)
+		{
+			_attack_triggered = true;
+
+			Circle_2D attack_collider = Circle_2D(_attack_range, _collider.translation() + _translation);
+			Circle_2D player_collider = Circle_2D(player->collider().radius(),
+				player->collider().translation() + player->translation());
+			float intersection_depth = attack_collider.intersection_depth(player_collider);
+
+			if (_flip == SDL_FLIP_NONE && player_collider.translation().x() > attack_collider.translation().x() || 
+				_flip != SDL_FLIP_NONE && player_collider.translation().x() < attack_collider.translation().x())
+			{
+				if (intersection_depth > 0.0f)
+				{
+					player->damage(10);
+				}
+			}
+		}
+		else if (_attack_timer >= 400)
+		{
+			pop_state(assets);
 		}
 		break;
 	}
@@ -113,6 +146,7 @@ void Goblin::handle_enter_state(State state, Assets* )
 	case State::Death:
 		_texture_id = "Texture.Goblin.Death";
 		_speed = 0.f;
+		_collider.set_radius(0.f);
 		break;
 	}
 }
@@ -128,6 +162,7 @@ void Goblin::handle_exit_state(State state, Assets* )
 	case State::Attack:
 		break;
 	case State::Death:
+		_collider.set_radius(_width / 4.f);
 		break;
 	}
 }

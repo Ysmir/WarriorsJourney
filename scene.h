@@ -28,9 +28,17 @@ public:
 	void set_pause(bool pause);
 	bool pause();
 
+	Uint8 red();
+	Uint8 green();
+	Uint8 blue();
+
 protected:
 	std::map<std::string, Game_Object*> _game_objects;
 	std::string							_id;
 	Vector_2D							_camera_translation;
 	bool _pause;
+
+	Uint8 _red;
+	Uint8 _green;
+	Uint8 _blue;
 };

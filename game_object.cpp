@@ -14,7 +14,8 @@ Game_Object::Game_Object(std::string id, std::string texture_id)
 	_height = 100;
 
 	_mass = 100.f;
-	_health = 100;
+	_max_health = 100;
+	_current_health = _max_health;
 
 	_flip = SDL_FLIP_NONE;
 
@@ -72,9 +73,23 @@ float Game_Object::mass()
 
 bool Game_Object::damage(int damage)
 {
-	_health -= damage;
-	_damage_timer = _damage_length;
-	return true;
+	if (_current_health > 0)
+	{
+		_current_health -= damage;
+		_damage_timer = _damage_length;
+		return true;
+	}
+	return false;
+}
+
+int Game_Object::max_health()
+{
+	return _max_health;
+}
+
+int Game_Object::current_health()
+{
+	return _current_health;
 }
 
 void Game_Object::simulate_physics(Uint32 milliseconds_to_simulate, Assets*, Scene* scene)
