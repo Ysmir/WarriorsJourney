@@ -1,0 +1,2 @@
+C:\Users\Keanu\source\repos\BasicGameEngineProgramming\SDLGameEngine\x64\Debug\SDLGameEngine.exe
+C:\Users\Keanu\source\repos\BasicGameEngineProgramming\SDLGameEngine\x64\Debug\SDLGameEngine.pdb
