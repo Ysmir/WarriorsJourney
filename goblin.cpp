@@ -4,7 +4,7 @@
 Goblin::Goblin(std::string id)
 	: Animated_Game_Object(id, "Texture.Goblin.Walking")
 {
-	_width = 64;
+	_width = 66;
 	_height = 64;
 
 	_translation = Vector_2D(0, 0);
@@ -68,7 +68,7 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
-		else if (distance_to_player < 100.f)
+		else if (distance_to_player < (_attack_range + player->collider().radius()))
 		{
 			push_state(State::Attack, assets);
 		}
