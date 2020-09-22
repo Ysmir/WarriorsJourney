@@ -225,10 +225,12 @@ void Player::handle_enter_state(State state, Assets* assets)
 	{
 	case State::Idle:
 		_texture_id = "Texture.Player.Idle";
+		_total_time_milliseconds = 0;
 		break;
 	case State::Walking:
 	{
 		_texture_id = "Texture.Player.Walking";
+		_total_time_milliseconds = 0;
 		_speed = 0.15f;
 		const int walking_channel = 1;
 		Sound* sound = (Sound*)assets->get_asset("Sound.Walking");
@@ -238,6 +240,7 @@ void Player::handle_enter_state(State state, Assets* assets)
 	case State::Running:
 	{
 		_texture_id = "Texture.Player.Running";
+		_total_time_milliseconds = 0;
 		_speed = 0.3f;
 		const int running_channel = 1;
 		Sound* sound = (Sound*)assets->get_asset("Sound.Running");
@@ -247,6 +250,7 @@ void Player::handle_enter_state(State state, Assets* assets)
 	case State::Attack:
 	{
 		_texture_id = "Texture.Player.Attack";
+		_total_time_milliseconds = 0;
 		_speed = 0.05f;
 		_attack_timer = 0;
 		_attack_triggered = false;
@@ -258,6 +262,7 @@ void Player::handle_enter_state(State state, Assets* assets)
 	case State::Death:
 	{
 		_texture_id = "Texture.Player.Death";
+		_total_time_milliseconds = 0;
 		_speed = 0.f;
 		const int death_channel = 2;
 		Sound* sound = (Sound*)assets->get_asset("Sound.Death");

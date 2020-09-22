@@ -19,11 +19,11 @@ public:
 		Death,
 		Attack
 	};
-	void push_state(State state, Assets* assets);
-	void pop_state(Assets* assets);
+	void push_state(State state, Assets* assets, Scene* scene);
+	void pop_state(Assets* assets, Scene* scene);
 
 private:
-	void handle_enter_state(State state, Assets* assets);
+	void handle_enter_state(State state, Assets*, Scene* scene);
 	void handle_exit_state(State state, Assets* assets);
 
 	float _speed;

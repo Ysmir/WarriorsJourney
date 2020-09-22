@@ -57,20 +57,20 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 	{
 	case State::Idle:
 		if (_current_health <= 0) {
-			push_state(State::Death, assets);
+			push_state(State::Death, assets, scene);
 		}
 		else if (distance_to_player < 600.f)
 		{
-			push_state(State::Walking, assets);
+			push_state(State::Walking, assets, scene);
 		}
 		break;
 	case State::Walking:
 		if (_current_health <= 0) {
-			push_state(State::Death, assets);
+			push_state(State::Death, assets, scene);
 		}
 		else if (distance_to_player < (_attack_range + player->collider().radius()))
 		{
-			push_state(State::Attack, assets);
+			push_state(State::Attack, assets, scene);
 		}
 		else
 		{
@@ -82,7 +82,7 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 	case State::Attack:
 		_attack_timer += milliseconds_to_simulate;
 		if (_current_health <= 0) {
-			push_state(State::Death, assets);
+			push_state(State::Death, assets, scene);
 		}
 		else if (_attack_timer >= 200 && !_attack_triggered)
 		{
@@ -104,29 +104,29 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		}
 		else if (_attack_timer >= 400)
 		{
-			pop_state(assets);
+			pop_state(assets, scene);
 		}
 		break;
 	}
 }
 
-void Goblin::push_state(State state, Assets* assets)
+void Goblin::push_state(State state, Assets* assets, Scene* scene)
 {
 	handle_exit_state(_state.top(), assets);
 
 	_state.push(state);
-	handle_enter_state(_state.top(), assets);
+	handle_enter_state(_state.top(), assets, scene);
 }
 
-void Goblin::pop_state(Assets* assets)
+void Goblin::pop_state(Assets* assets, Scene* scene)
 {
 	handle_exit_state(_state.top(), assets);
 
 	_state.pop();
-	handle_enter_state(_state.top(), assets);
+	handle_enter_state(_state.top(), assets, scene);
 }
 
-void Goblin::handle_enter_state(State state, Assets* )
+void Goblin::handle_enter_state(State state, Assets* , Scene* scene)
 {
 	switch (state)
 	{
@@ -135,16 +135,30 @@ void Goblin::handle_enter_state(State state, Assets* )
 		break;
 	case State::Walking:
 		_texture_id = "Texture.Goblin.Walking";
+		_total_time_milliseconds = 0;
 		_speed = 0.15f;
 		break;
 	case State::Attack:
 		_texture_id = "Texture.Goblin.Attack";
+		_total_time_milliseconds = 0;
 		_speed = 0.05f;
 		_attack_timer = 0;
 		_attack_triggered = false;
+		{
+			Player* player = (Player*)scene->get_game_object("Player");
+			if (player->collider().translation().x() + player->translation().x() < _collider.translation().x() + _translation.x())
+			{
+				_flip = SDL_FLIP_HORIZONTAL;
+			}
+			else
+			{
+				_flip = SDL_FLIP_NONE;
+			}
+		}
 		break;
 	case State::Death:
 		_texture_id = "Texture.Goblin.Death";
+		_total_time_milliseconds = 0;
 		_speed = 0.f;
 		_collider.set_radius(0.f);
 		break;

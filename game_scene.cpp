@@ -27,10 +27,13 @@ Game_Scene::Game_Scene()
 
 	Game_Object* fire = new Fire();
 	_game_objects[fire->id()] = fire;
-
-	Game_Object* goblin = new Goblin("Goblin.1");
-	_game_objects[goblin->id()] = goblin;
-	goblin->set_translation(Vector_2D(-200.f, -200.f));
+	
+	for (int i = 1; i < 10; i++)
+	{
+		Game_Object* goblin = new Goblin("Goblin." + i);
+		_game_objects[goblin->id()] = goblin;
+		goblin->set_translation(Vector_2D(-200.f * i, -200.f));
+	}
 }
 
 Game_Scene::~Game_Scene()

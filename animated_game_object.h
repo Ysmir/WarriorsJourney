@@ -9,4 +9,7 @@ public:
 	~Animated_Game_Object();
 
 	virtual void render(Uint32 milliseconds_to_simulate, Assets* assets, SDL_Renderer* renderer, Configuration* config, Scene* scene) override;
+
+protected:
+	Uint32 _total_time_milliseconds;
 };

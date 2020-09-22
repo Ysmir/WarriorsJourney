@@ -5,7 +5,6 @@ Animated_Texture::Animated_Texture(std::string id, std::string path, SDL_Rendere
 {
 	_frame_count = frame_count;
 	_frame_duration_milliseconds = frame_duration_milliseconds;
-	_total_time_milliseconds = 0;
 	_current_frame = 0;
 	_loop = loop;
 	_updated_current_frame = false;
@@ -15,17 +14,16 @@ Animated_Texture::~Animated_Texture()
 {
 }
 
-void Animated_Texture::update_frame(Uint32 milliseconds_to_simulate)
+void Animated_Texture::set_frame(Uint32 total_time_milliseconds)
 {
-	if (!_updated_current_frame)
+	if (_loop || total_time_milliseconds < _frame_duration_milliseconds * _frame_count)
 	{
-		_total_time_milliseconds += milliseconds_to_simulate;
-		if (_loop || _total_time_milliseconds < _frame_duration_milliseconds * _frame_count)
-		{
-			_current_frame = (_total_time_milliseconds / _frame_duration_milliseconds) % _frame_count;
+		_current_frame = (total_time_milliseconds / _frame_duration_milliseconds) % _frame_count;
 
-		}
-		_updated_current_frame = true;
+	}
+	else
+	{
+		_current_frame = _frame_count - 1;
 	}
 }
 
