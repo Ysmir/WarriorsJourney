@@ -160,6 +160,7 @@
     <ClCompile Include="game_scene.cpp" />
     <ClCompile Include="goblin.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="level_portal.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="portal_entry.cpp" />
@@ -169,8 +170,10 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="tree.cpp" />
     <ClCompile Include="user_interface.cpp" />
     <ClCompile Include="vector_2D.cpp" />
+    <ClCompile Include="village_scene.cpp" />
     <ClCompile Include="walking_dino.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +191,7 @@
     <ClInclude Include="game_scene.h" />
     <ClInclude Include="goblin.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="level_portal.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="portal_entry.h" />
     <ClInclude Include="portal_exit.h" />
@@ -197,8 +201,10 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="tree.h" />
     <ClInclude Include="user_interface.h" />
     <ClInclude Include="vector_2D.h" />
+    <ClInclude Include="village_scene.h" />
     <ClInclude Include="walking_dino.h" />
   </ItemGroup>
   <ItemGroup>

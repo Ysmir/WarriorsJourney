@@ -14,6 +14,8 @@ Game_Object::Game_Object(std::string id, std::string texture_id)
 	_height = 100;
 
 	_mass = 100.f;
+	_immovable = false;
+
 	_max_health = 100;
 	_current_health = _max_health;
 
@@ -71,6 +73,11 @@ float Game_Object::mass()
 	return _mass;
 }
 
+bool Game_Object::immovable()
+{
+	return _immovable;
+}
+
 bool Game_Object::damage(int damage)
 {
 	if (_current_health > 0)
@@ -99,31 +106,44 @@ void Game_Object::simulate_physics(Uint32 milliseconds_to_simulate, Assets*, Sce
 
 	_translation += velocity;
 
-	for (Game_Object* game_object : scene->get_game_objects())
+	if (!_immovable)
 	{
-		if (game_object->id() == _id)
+		for (Game_Object* game_object : scene->get_game_objects())
 		{
-			continue;
-		}
+			if (game_object->id() == _id)
+			{
+				continue;
+			}
 
-		Circle_2D collider = Circle_2D(_collider.radius(), _collider.translation() + _translation);
-		Circle_2D other_collider = Circle_2D(game_object->collider().radius(), 
-			game_object->collider().translation() + game_object->translation());
-		float intersection_depth = collider.intersection_depth(other_collider);
+			Circle_2D collider = Circle_2D(_collider.radius(), _collider.translation() + _translation);
+			Circle_2D other_collider = Circle_2D(game_object->collider().radius(),
+				game_object->collider().translation() + game_object->translation());
+			float intersection_depth = collider.intersection_depth(other_collider);
 
-		if (intersection_depth > 0.0f)
-		{
-			float total_mass = _mass + game_object->mass();
+			if (intersection_depth > 0.0f)
+			{
+				float total_mass = _mass + game_object->mass();
 
-			Vector_2D other_collider_to_collider = collider.translation() - other_collider.translation();
-			other_collider_to_collider.normalize();
-			other_collider_to_collider.scale(intersection_depth * (1 - _mass/total_mass));
-			_translation += other_collider_to_collider;
+				if (game_object->immovable()) 
+				{
+					Vector_2D other_collider_to_collider = collider.translation() - other_collider.translation();
+					other_collider_to_collider.normalize();
+					other_collider_to_collider.scale(intersection_depth);
+					_translation += other_collider_to_collider;
+				} 
+				else
+				{
+					Vector_2D other_collider_to_collider = collider.translation() - other_collider.translation();
+					other_collider_to_collider.normalize();
+					other_collider_to_collider.scale(intersection_depth * (1 - _mass / total_mass));
+					_translation += other_collider_to_collider;
 
-			Vector_2D collider_to_other_collider = other_collider.translation() - collider.translation();
-			collider_to_other_collider.normalize();
-			collider_to_other_collider.scale(intersection_depth * (1 - game_object->mass() / total_mass));
-			game_object->_translation += collider_to_other_collider;
+					Vector_2D collider_to_other_collider = other_collider.translation() - collider.translation();
+					collider_to_other_collider.normalize();
+					collider_to_other_collider.scale(intersection_depth * (1 - game_object->mass() / total_mass));
+					game_object->_translation += collider_to_other_collider;
+				}
+			}
 		}
 	}
 }

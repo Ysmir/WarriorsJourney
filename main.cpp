@@ -13,7 +13,7 @@ int main(void)
 	Configuration* config = new Configuration();
 	Engine* engine		= new Engine("Game", config);
 	Assets* assets		= new Assets(engine->renderer());
-	Scene* game_scene   = new Game_Scene();
+	Scene* game_scene   = new Game_Scene(2560.f, 1920.f);
 	Input* input		= new Input();
 	Editor* editor		= new Editor(L"Game");
 

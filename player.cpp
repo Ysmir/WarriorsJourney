@@ -138,7 +138,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 
 				if (intersection_depth > 0.0f)
 				{
-					if (game_object->damage(10))
+					if (game_object->damage(10) && !game_object->immovable())
 					{
 						Vector_2D knockback = ((game_object->translation() + game_object->collider().translation()) - (_translation + _collider.translation()));
 						knockback.normalize();

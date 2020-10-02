@@ -30,6 +30,7 @@ public:
 	int height();
 
 	float mass();
+	bool immovable();
 	virtual bool damage(int damage);
 
 	int max_health();
@@ -53,6 +54,8 @@ protected:
 	int _height;
 	
 	float _mass;
+	bool _immovable;
+
 	int _max_health;
 	int _current_health;
 

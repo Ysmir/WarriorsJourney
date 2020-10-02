@@ -59,7 +59,7 @@ void Goblin::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		if (_current_health <= 0) {
 			push_state(State::Death, assets, scene);
 		}
-		else if (distance_to_player < 600.f)
+		else if (distance_to_player < 400.f)
 		{
 			push_state(State::Walking, assets, scene);
 		}

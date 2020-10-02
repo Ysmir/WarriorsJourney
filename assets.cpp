@@ -103,6 +103,11 @@ Assets::Assets(SDL_Renderer* renderer)
 		_assets[fire_texture->id()] = fire_texture;
 		_animated_texture_ids.push_back(fire_texture->id());
 	}
+	// tree texture
+	{
+		Texture* tree_texture = new Texture("Texture.Tree", "Assets/tree.png", renderer);
+		_assets[tree_texture->id()] = tree_texture;
+	}
 	// goblin texture
 	{
 		const int walking_frame_count = 7;
