@@ -13,6 +13,8 @@ public:
 		QUIT,
 		PAUSE,
 
+		CLICK,
+
 		UP,
 		DOWN,
 		LEFT,

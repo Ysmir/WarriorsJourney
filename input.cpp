@@ -48,6 +48,24 @@ void Input::get_input()
 			_button_state[Button::QUIT] = Button_State::PRESSED;
 			break;
 
+		case SDL_MOUSEBUTTONDOWN:
+			switch (event.button.button)
+			{
+			case SDL_BUTTON_LEFT:
+				_button_state[Button::CLICK] = Button_State::PRESSED;
+				break;
+			}
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			switch (event.button.button)
+			{
+			case SDL_BUTTON_LEFT:
+				_button_state[Button::CLICK] = Button_State::RELEASED;
+				break;
+			}
+			break;
+
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.scancode)
 			{

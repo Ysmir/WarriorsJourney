@@ -1,10 +1,12 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <stack>
 
 #include "configuration.h"
 #include "engine.h"
 #include "game_scene.h"
+#include "village_scene.h"
 #include "input.h"
 #include "editor.h"
 
@@ -13,9 +15,12 @@ int main(void)
 	Configuration* config = new Configuration();
 	Engine* engine		= new Engine("Game", config);
 	Assets* assets		= new Assets(engine->renderer());
-	Scene* game_scene   = new Game_Scene(2560.f, 1920.f);
 	Input* input		= new Input();
 	Editor* editor		= new Editor(L"Game");
+
+	std::stack<Scene*> scenes;
+	//scenes.push(new Game_Scene(2560.f, 1920.f));
+	scenes.push(new Village_Scene());
 
 	const Uint32 milliseconds_per_second = 1000;
 	const Uint32 frames_per_second		 = 60;
@@ -28,10 +33,24 @@ int main(void)
 		Uint32 previous_frame_duration = frame_end_time_ms - frame_start_time_ms;
 		frame_start_time_ms			   = SDL_GetTicks();
 		
-		game_scene->update(engine->window());
 		input->get_input();
-		editor->update(input, game_scene, config);
-		engine->simulate(previous_frame_duration, assets, game_scene, input, config);
+
+		if (scenes.top()->scene_completed())
+		{
+			Scene* next_scene = scenes.top()->next_scene();
+			if (scenes.top()->destroy_on_complete())
+			{
+				scenes.pop();
+			}
+			if (next_scene != nullptr)
+			{
+				scenes.push(next_scene);
+			}
+		}
+
+		scenes.top()->update(engine->window(), input);
+		editor->update(input, scenes.top(), config);
+		engine->simulate(previous_frame_duration, assets, scenes.top(), input, config);
 
 		const Uint32 current_time_ms = SDL_GetTicks();
 		const Uint32 frame_duration_ms = current_time_ms - frame_start_time_ms;

@@ -30,11 +30,12 @@ Game_Scene::Game_Scene()
 	_game_objects[level_portal->id()] = level_portal;
 }
 
-Game_Scene::Game_Scene(float width, float height)
+Game_Scene::Game_Scene(float width, float height, float difficulty)
 	:Game_Scene()
 {
 	_width = width;
 	_height = height;
+	_difficulty = difficulty;
 
 	int tree_counter = 0;
 	Game_Object* tree;
@@ -60,21 +61,29 @@ Game_Scene::Game_Scene(float width, float height)
 		tree_counter++;
 	}
 
-	Game_Object* player = get_game_object("Player");
+	Game_Object* player = _game_objects["Player"];
 	player->set_translation(Vector_2D(_width/2.f, _height / 2.f));
-	Game_Object* portal = get_game_object("Portal.Level");
+	Game_Object* portal = _game_objects["Portal.Level"];
 	portal->set_translation(Vector_2D((_width - portal->width())/2.f, (_height - portal->height())/2.f));
 
-	spawn_enemies(1.0f);
+	spawn_enemies(difficulty);
 
+}
+
+Game_Scene::Game_Scene(float width, float height, float difficulty, Player* player)
+	:Game_Scene(width, height, difficulty)
+{
+	_game_objects["Player"] = player;
+	player->set_translation(Vector_2D(_width / 2.f, _height / 2.f));
 }
 
 Game_Scene::~Game_Scene()
 {
 }
 
-void Game_Scene::update(SDL_Window* window)
+void Game_Scene::update(SDL_Window* window, Input*)
 {
+	//move camera
 	Game_Object* player = get_game_object("Player");
 
 	int w, h;
@@ -88,13 +97,43 @@ void Game_Scene::update(SDL_Window* window)
 		else if (_camera_translation.y() > (_height - h + _tree_size / 2.f)) _camera_translation = Vector_2D(_camera_translation.x(), _height - h + _tree_size / 2.f);
 	}
 
+	//check for dead enemies
+	for (int i = 0; i <_living_enemies.size(); i++)
+	{
+		if (_living_enemies.at(i)->current_health() <= 0)
+		{
+			_living_enemies.erase(_living_enemies.begin()+i);
+			_enemies--;
+			i--;
+
+			if (_enemies == 0)
+			{
+				Level_Portal* level_portal = (Level_Portal*)get_game_object("Portal.Level");
+				level_portal->set_exit_mode(true);
+			}
+		}
+		
+	}
+
+	//update UI
 	User_Interface* UI = (User_Interface*)get_game_object("User.Interface");
 	UI->set_counter(_enemies);
+
+	if (_enemies == 0)
+	{
+		Level_Portal* level_portal = (Level_Portal*)get_game_object("Portal.Level");
+		if (level_portal->player_exit())
+		{
+			_scene_completed = true;
+			_destroy_on_complete = true;
+			_next_scene = new Game_Scene(2048.f, 1536.f, _difficulty + 1.f, (Player*)_game_objects["Player"]);
+		}
+	}
 }
 
 void Game_Scene::spawn_enemies(float difficulty)
 {
-	int enemies_to_spawn = (int)(20 + 10 * difficulty);
+	int enemies_to_spawn = (int)(5 + 2 * difficulty);
 	_enemies = enemies_to_spawn;
 
 	int seed = (int)time(NULL);
@@ -116,6 +155,7 @@ void Game_Scene::spawn_enemies(float difficulty)
 			enemy->set_translation(spawn_location);
 			_game_objects[enemy->id()] = enemy;
 			enemies_to_spawn--;
+			_living_enemies.push_back(enemy);
 		}
 	}
 }

@@ -75,3 +75,18 @@ Uint8 Scene::blue()
 {
 	return _blue;
 }
+
+bool Scene::scene_completed()
+{
+	return _scene_completed;
+}
+
+bool Scene::destroy_on_complete()
+{
+	return _destroy_on_complete;
+}
+
+Scene* Scene::next_scene()
+{
+	return _next_scene;
+}
