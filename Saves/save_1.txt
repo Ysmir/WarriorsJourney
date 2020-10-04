@@ -1,4 +1,4 @@
-money 134
-health_upgrades 20
-damage_upgrades 5
-attack_speed_upgrades 100
+money 0
+health_upgrades 0
+damage_upgrades 0
+attack_speed_upgrades 0
