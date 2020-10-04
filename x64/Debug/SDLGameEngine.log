@@ -1,2 +1,12 @@
-﻿  village_scene.cpp
+﻿  editor.cpp
+  fire.cpp
+  game_scene.cpp
+  goblin.cpp
+  level_portal.cpp
+  main.cpp
+  player.cpp
+  portal_entry.cpp
+  user_interface.cpp
+  village_scene.cpp
+  Generating Code...
   SDLGameEngine.vcxproj -> D:\Documents\Visual Studio 2019\Projects\WarriorsJourney\WarriorsJourney\x64\Debug\SDLGameEngine.exe

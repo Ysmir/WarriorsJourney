@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "player.h"
 #include "sound.h"
 
@@ -38,6 +40,7 @@ void Player::load_save(Save* save)
 	_damage = 10 + save->_damage_upgrades;
 	_base_speed = 0.15f * (100.f + ((float) save->_speed_potions)*5) / 100.f;
 	_attack_speed = 100 + save->_attack_speed_upgrades;
+	_lifesteal = save->_lifesteal_potions;
 }
 
 void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input* input, Scene* scene)
@@ -237,6 +240,18 @@ bool Player::damage(int damage)
 		return true;
 	}
 	return false;
+}
+
+void Player::trigger_lifesteal(int heal_amount)
+{
+	if (rand() % 100 < _lifesteal)
+	{
+		_current_health += heal_amount;
+		if (_current_health > _max_health)
+		{
+			_current_health = _max_health;
+		}
+	}
 }
 
 void Player::handle_enter_state(State state, Assets* assets)

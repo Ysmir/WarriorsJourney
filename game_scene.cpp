@@ -80,6 +80,7 @@ Game_Scene::Game_Scene(float width, float height, float difficulty, Save* save)
 	Player* player = (Player*)_game_objects["Player"];
 	player->load_save(save);
 	save->_speed_potions = 0;
+	save->_lifesteal_potions = 0;
 }
 
 Game_Scene::Game_Scene(float width, float height, float difficulty, int score, Player* player)
@@ -120,6 +121,7 @@ void Game_Scene::update(SDL_Window* window, Input*, Save* save)
 			_enemies--;
 			i--;
 			_score++;
+			((Player*)player)->trigger_lifesteal(1);
 
 			if (_enemies == 0)
 			{

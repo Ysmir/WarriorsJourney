@@ -30,6 +30,7 @@ public:
 	void pop_state(Assets* assets);
 
 	virtual bool damage(int damage) override;
+	void trigger_lifesteal(int heal_amount);
 
 private:
 	void handle_enter_state(State state, Assets* assets);
@@ -49,4 +50,5 @@ private:
 	bool _attack_triggered;
 	float _attack_range;
 	float _knockback_strength;
+	int _lifesteal;
 };
