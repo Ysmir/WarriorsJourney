@@ -10,7 +10,10 @@ public:
 	Player(std::string id);
 	~Player();
 
+	void load_save(Save* save);
+
 	virtual void simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input* input, Scene* scene) override;
+	virtual void render(Uint32 milliseconds_to_simulate, Assets* assets, SDL_Renderer* renderer, Configuration* config, Scene* scene) override;
 
 	void set_speed(float speed);
 	float speed();
@@ -32,8 +35,12 @@ private:
 	void handle_enter_state(State state, Assets* assets);
 	void handle_exit_state(State state, Assets* assets);
 
+	float _base_speed;
 	float _speed;
 	std::stack<State> _state;
+
+	int _damage;
+	int _attack_speed;
 
 	Uint32 _damage_invulnerability_timer;
 	Uint32 _damage_invulnerability_length;

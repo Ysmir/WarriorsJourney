@@ -6,9 +6,9 @@
 class End_Scene : public Scene
 {
 public:
-	End_Scene(int score, float level);
+	End_Scene(int score, float level, Save* save);
 	~End_Scene();
 
-	virtual void update(SDL_Window* window, Input* input) override;
+	virtual void update(SDL_Window* window, Input* input, Save* save) override;
 
 };

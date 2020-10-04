@@ -1,9 +1,11 @@
 #include "end_scene.h"
 #include "end_interface.h"
 
-End_Scene::End_Scene(int score, float level)
+End_Scene::End_Scene(int score, float level, Save* save)
 	: Scene("End")
 {
+	save->_money += score;
+
 	_red = 63;
 	_green = 63;
 	_blue = 63;
@@ -16,11 +18,12 @@ End_Scene::~End_Scene()
 {
 }
 
-void End_Scene::update(SDL_Window* , Input* input)
+void End_Scene::update(SDL_Window* , Input* input, Save*)
 {
 	bool click = input->is_button_state(Input::Button::CLICK, Input::Button_State::PRESSED);
 	if (click)
 	{
+
 		_scene_completed = true;
 		_next_scene = nullptr;
 		_destroy_on_complete = true;

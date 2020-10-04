@@ -8,7 +8,11 @@ Player::Player(std::string id)
 	_height = 136;
 
 	_translation = Vector_2D(0, 0);
-	_speed = 0.1f;
+	_base_speed = 0.15f;
+	_speed = 0.15f;
+
+	_damage = 10;
+	_attack_speed = 100;
 
 	_collider.set_radius(_width / 7.0f);
 	_collider.set_translation(Vector_2D(_width / 2.0f, _height * 0.7f));
@@ -25,6 +29,15 @@ Player::Player(std::string id)
 
 Player::~Player()
 {
+}
+
+void Player::load_save(Save* save)
+{
+	_max_health = 100 + save->_health_upgrades * 10;
+	_current_health = _max_health;
+	_damage = 10 + save->_damage_upgrades;
+	_base_speed = 0.15f * (100.f + ((float) save->_speed_potions)*5) / 100.f;
+	_attack_speed = 100 + save->_attack_speed_upgrades;
 }
 
 void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input* input, Scene* scene)
@@ -101,7 +114,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 		}
 		break;
 	case State::Attack:
-		_attack_timer += milliseconds_to_simulate;
+		_attack_timer += milliseconds_to_simulate * _attack_speed/100;
 		if (_current_health <= 0) {
 			push_state(State::Death, assets);
 		}
@@ -138,7 +151,7 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 
 				if (intersection_depth > 0.0f)
 				{
-					if (game_object->damage(10) && !game_object->immovable())
+					if (game_object->damage(_damage) && !game_object->immovable())
 					{
 						Vector_2D knockback = ((game_object->translation() + game_object->collider().translation()) - (_translation + _collider.translation()));
 						knockback.normalize();
@@ -180,6 +193,13 @@ void Player::simulate_AI(Uint32 milliseconds_to_simulate, Assets* assets, Input*
 
 	_velocity.normalize();
 	_velocity.scale(_speed);
+}
+
+void Player::render(Uint32 milliseconds_to_simulate, Assets* assets, SDL_Renderer* renderer, Configuration* config, Scene* scene)
+{
+	Uint32 milliseconds_to_animate = milliseconds_to_simulate;
+	if (_state.top() == State::Attack) milliseconds_to_animate = milliseconds_to_animate * _attack_speed / 100;
+	Animated_Game_Object::render(milliseconds_to_animate, assets, renderer, config, scene);
 }
 
 void Player::set_speed(float speed)
@@ -231,7 +251,7 @@ void Player::handle_enter_state(State state, Assets* assets)
 	{
 		_texture_id = "Texture.Player.Walking";
 		_total_time_milliseconds = 0;
-		_speed = 0.15f;
+		_speed = _base_speed;
 		const int walking_channel = 1;
 		Sound* sound = (Sound*)assets->get_asset("Sound.Walking");
 		Mix_PlayChannel(walking_channel, sound->data(), -1);
@@ -241,7 +261,7 @@ void Player::handle_enter_state(State state, Assets* assets)
 	{
 		_texture_id = "Texture.Player.Running";
 		_total_time_milliseconds = 0;
-		_speed = 0.3f;
+		_speed = _base_speed*2;
 		const int running_channel = 1;
 		Sound* sound = (Sound*)assets->get_asset("Sound.Running");
 		Mix_PlayChannel(running_channel, sound->data(), -1);
@@ -251,7 +271,7 @@ void Player::handle_enter_state(State state, Assets* assets)
 	{
 		_texture_id = "Texture.Player.Attack";
 		_total_time_milliseconds = 0;
-		_speed = 0.05f;
+		_speed = _base_speed * 0.25f;
 		_attack_timer = 0;
 		_attack_triggered = false;
 		const int attack_channel = 2;

@@ -95,6 +95,20 @@ Assets::Assets(SDL_Renderer* renderer)
 		_assets[portal_exit_texture->id()] = portal_exit_texture;
 		_animated_texture_ids.push_back(portal_exit_texture->id());
 	}
+	// shop textures
+	{
+		Texture* magic_shop_normal_texture = new Texture("Texture.Shop.Magic.Normal", "Assets/magic.normal.png", renderer);
+		_assets[magic_shop_normal_texture->id()] = magic_shop_normal_texture;
+
+		Texture* magic_shop_hover_texture = new Texture("Texture.Shop.Magic.Hover", "Assets/magic.hover.png", renderer);
+		_assets[magic_shop_hover_texture->id()] = magic_shop_hover_texture;
+
+		Texture* smith_shop_normal_texture = new Texture("Texture.Shop.Smith.Normal", "Assets/smith.normal.png", renderer);
+		_assets[smith_shop_normal_texture->id()] = smith_shop_normal_texture;
+
+		Texture* smith_shop_hover_texture = new Texture("Texture.Shop.Smith.Hover", "Assets/smith.hover.png", renderer);
+		_assets[smith_shop_hover_texture->id()] = smith_shop_hover_texture;
+	}
 	// fire texture
 	{
 		const int frame_count = 5;

@@ -74,6 +74,14 @@ Game_Scene::Game_Scene(float width, float height, float difficulty)
 
 }
 
+Game_Scene::Game_Scene(float width, float height, float difficulty, Save* save)
+	:Game_Scene(width, height, difficulty)
+{
+	Player* player = (Player*)_game_objects["Player"];
+	player->load_save(save);
+	save->_speed_potions = 0;
+}
+
 Game_Scene::Game_Scene(float width, float height, float difficulty, int score, Player* player)
 	:Game_Scene(width, height, difficulty)
 {
@@ -87,7 +95,7 @@ Game_Scene::~Game_Scene()
 {
 }
 
-void Game_Scene::update(SDL_Window* window, Input*)
+void Game_Scene::update(SDL_Window* window, Input*, Save* save)
 {
 	//move camera
 	Game_Object* player = get_game_object("Player");
@@ -127,7 +135,7 @@ void Game_Scene::update(SDL_Window* window, Input*)
 	{
 		_scene_completed = true;
 		_destroy_on_complete = true;
-		_next_scene = new End_Scene(_score, _difficulty);
+		_next_scene = new End_Scene(_score, _difficulty, save);
 	}
 
 	//update UI

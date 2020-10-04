@@ -9,6 +9,7 @@
 
 #include "vector_2D.h"
 #include "input.h"
+#include "save.h"
 
 class Game_Object;
 
@@ -18,7 +19,7 @@ public:
 	Scene(std::string id);
 	~Scene();
 
-	virtual void update(SDL_Window* window, Input* input) = 0;
+	virtual void update(SDL_Window* window, Input* input, Save* save) = 0;
 
 	Game_Object* get_game_object(std::string id);
 	std::vector<Game_Object*> get_game_objects();

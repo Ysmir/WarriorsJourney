@@ -9,6 +9,7 @@
 #include "village_scene.h"
 #include "input.h"
 #include "editor.h"
+#include "save.h"
 
 int main(void)
 {
@@ -17,10 +18,12 @@ int main(void)
 	Assets* assets		= new Assets(engine->renderer());
 	Input* input		= new Input();
 	Editor* editor		= new Editor(L"Game");
+	Save* save			= new Save();
+
+	save->load_save("Saves/save_1.txt");
 
 	std::stack<Scene*> scenes;
-	//scenes.push(new Game_Scene(2560.f, 1920.f));
-	scenes.push(new Village_Scene());
+	scenes.push(new Village_Scene(save));
 
 	const Uint32 milliseconds_per_second = 1000;
 	const Uint32 frames_per_second		 = 60;
@@ -52,7 +55,7 @@ int main(void)
 			}
 		}
 
-		scenes.top()->update(engine->window(), input);
+		scenes.top()->update(engine->window(), input, save);
 		editor->update(input, scenes.top(), config);
 		engine->simulate(previous_frame_duration, assets, scenes.top(), input, config);
 
