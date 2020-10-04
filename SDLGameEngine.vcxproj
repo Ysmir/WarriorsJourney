@@ -154,6 +154,8 @@
     <ClCompile Include="circle_2D.cpp" />
     <ClCompile Include="dino.cpp" />
     <ClCompile Include="editor.cpp" />
+    <ClCompile Include="end_interface.cpp" />
+    <ClCompile Include="end_scene.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="fire.cpp" />
     <ClCompile Include="game_object.cpp" />
@@ -186,6 +188,8 @@
     <ClInclude Include="configuration.h" />
     <ClInclude Include="dino.h" />
     <ClInclude Include="editor.h" />
+    <ClInclude Include="end_interface.h" />
+    <ClInclude Include="end_scene.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="fire.h" />
     <ClInclude Include="game_object.h" />

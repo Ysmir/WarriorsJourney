@@ -61,8 +61,10 @@ void Village_Scene::update(SDL_Window*, Input* input)
 
 		Village_Portal* portal = (Village_Portal*)get_game_object("Portal.Village");
 
+		bool click = input->is_button_state(Input::Button::CLICK, Input::Button_State::PRESSED);
+
 		if (portal->mouse_above(mouse_location)) {
-			if (input->is_button_state(Input::Button::CLICK, Input::Button_State::PRESSED))
+			if (click)
 			{
 				_scene_completed = true;
 				_destroy_on_complete = false;

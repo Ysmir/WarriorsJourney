@@ -10,7 +10,7 @@
 class Text : public Asset
 {
 public:
-	Text(SDL_Renderer* renderer, const char* text, SDL_Color color, std::string id);
+	Text(SDL_Renderer* renderer, const char* text, SDL_Color color, std::string id, int size = 15);
 	~Text();
 
 	void render(SDL_Renderer* renderer, Vector_2D translation);

@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include "game_scene.h"
+#include "end_scene.h"
 #include "snail.h"
 #include "player.h"
 #include "fire.h"
@@ -15,6 +16,9 @@ Game_Scene::Game_Scene()
 {
 	_width = 0.f;
 	_height = 0.f;
+
+	_difficulty = 0.f;
+	_score = 0;	
 
 	_tree_size = 128.f;
 
@@ -70,9 +74,11 @@ Game_Scene::Game_Scene(float width, float height, float difficulty)
 
 }
 
-Game_Scene::Game_Scene(float width, float height, float difficulty, Player* player)
+Game_Scene::Game_Scene(float width, float height, float difficulty, int score, Player* player)
 	:Game_Scene(width, height, difficulty)
 {
+	_score = score;
+
 	_game_objects["Player"] = player;
 	player->set_translation(Vector_2D(_width / 2.f, _height / 2.f));
 }
@@ -105,6 +111,7 @@ void Game_Scene::update(SDL_Window* window, Input*)
 			_living_enemies.erase(_living_enemies.begin()+i);
 			_enemies--;
 			i--;
+			_score++;
 
 			if (_enemies == 0)
 			{
@@ -115,9 +122,18 @@ void Game_Scene::update(SDL_Window* window, Input*)
 		
 	}
 
+	//Check for dead player
+	if (player->current_health() == 0)
+	{
+		_scene_completed = true;
+		_destroy_on_complete = true;
+		_next_scene = new End_Scene(_score, _difficulty);
+	}
+
 	//update UI
 	User_Interface* UI = (User_Interface*)get_game_object("User.Interface");
-	UI->set_counter(_enemies);
+	UI->set_counter_enemy(_enemies);
+	UI->set_counter_score(_score);
 
 	if (_enemies == 0)
 	{
@@ -126,7 +142,7 @@ void Game_Scene::update(SDL_Window* window, Input*)
 		{
 			_scene_completed = true;
 			_destroy_on_complete = true;
-			_next_scene = new Game_Scene(2048.f, 1536.f, _difficulty + 1.f, (Player*)_game_objects["Player"]);
+			_next_scene = new Game_Scene(2048.f, 1536.f, _difficulty + 1.f, _score, (Player*)_game_objects["Player"]);
 		}
 	}
 }

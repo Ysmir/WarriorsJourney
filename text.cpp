@@ -4,10 +4,10 @@
 
 #include "text.h"
 
-Text::Text(SDL_Renderer* renderer, const char* text, SDL_Color color, std::string id)
+Text::Text(SDL_Renderer* renderer, const char* text, SDL_Color color, std::string id, int size)
 	: Asset(id)
 {
-	TTF_Font* font = TTF_OpenFont("Assets/framd.ttf", 15);
+	TTF_Font* font = TTF_OpenFont("Assets/framd.ttf", size);
 	if (font == nullptr)
 	{
 		std::cout << "Failed to load font." << std::endl;

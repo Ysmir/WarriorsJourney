@@ -41,7 +41,7 @@ void User_Interface::render(Uint32 , Assets* , SDL_Renderer* renderer, Configura
 	SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
 	
 	//Enemy Counter
-	std::string enemy_counter = "Enemies Remaining: " + std::to_string(_counter);
+	std::string enemy_counter = "Enemies Remaining: " + std::to_string(_counter_enemy);
 
 	SDL_Color text_color;
 	text_color.r = 255;
@@ -49,12 +49,31 @@ void User_Interface::render(Uint32 , Assets* , SDL_Renderer* renderer, Configura
 	text_color.b = 0;
 	text_color.a = 0;
 
-	Text id(renderer, enemy_counter.c_str(), text_color, "Enemy.Counter.Text");
+	Text enemy(renderer, enemy_counter.c_str(), text_color, "Enemy.Counter.Text", 20);
 
-	id.render(renderer, Vector_2D(300.f, 20.f));
+	enemy.render(renderer, Vector_2D(320.f, 20.f));
+
+	//score counter
+	std::string score_counter = "Score: " + std::to_string(_counter_score);
+
+	//SDL_Color text_color;
+	text_color.r = 127;
+	text_color.g = 255;
+	text_color.b = 127;
+	text_color.a = 0;
+
+	Text score(renderer, score_counter.c_str(), text_color, "Score.Counter.Text", 30);
+
+	score.render(renderer, Vector_2D(560.f, 20.f));
 }
 
-void User_Interface::set_counter(int counter)
+void User_Interface::set_counter_enemy(int counter)
 {
-	_counter = counter;
+	_counter_enemy = counter;
 }
+
+void User_Interface::set_counter_score(int counter)
+{
+	_counter_score = counter;
+}
+

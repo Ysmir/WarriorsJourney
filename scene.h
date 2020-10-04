@@ -34,6 +34,7 @@ public:
 	Uint8 blue();
 
 	bool scene_completed();
+	void set_scene_completed(bool complete);
 	bool destroy_on_complete();
 	Scene* next_scene();
 

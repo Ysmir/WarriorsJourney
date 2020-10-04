@@ -42,6 +42,10 @@ int main(void)
 			{
 				scenes.pop();
 			}
+			else
+			{
+				scenes.top()->set_scene_completed(false);
+			}
 			if (next_scene != nullptr)
 			{
 				scenes.push(next_scene);

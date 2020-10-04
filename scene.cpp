@@ -81,6 +81,11 @@ bool Scene::scene_completed()
 	return _scene_completed;
 }
 
+void Scene::set_scene_completed(bool complete)
+{
+	_scene_completed = complete;
+}
+
 bool Scene::destroy_on_complete()
 {
 	return _destroy_on_complete;

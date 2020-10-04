@@ -8,7 +8,7 @@ class Game_Scene : public Scene
 public:
 	Game_Scene();
 	Game_Scene(float width, float height, float difficulty);
-	Game_Scene(float width, float height, float difficulty, Player* player);
+	Game_Scene(float width, float height, float difficulty, int score, Player* player);
 	~Game_Scene();
 
 	virtual void update(SDL_Window* window, Input* input) override;
@@ -20,6 +20,7 @@ private:
 	float _tree_size;
 
 	float _difficulty;
+	int _score;
 
 	int _enemies;
 	void spawn_enemies(float difficulty);

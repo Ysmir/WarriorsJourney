@@ -102,6 +102,12 @@
     <ClCompile Include="village_portal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="end_scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="end_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -192,6 +198,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="village_portal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="end_scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="end_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
