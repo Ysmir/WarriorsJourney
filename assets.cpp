@@ -109,6 +109,15 @@ Assets::Assets(SDL_Renderer* renderer)
 		Texture* smith_shop_hover_texture = new Texture("Texture.Shop.Smith.Hover", "Assets/smith.hover.png", renderer);
 		_assets[smith_shop_hover_texture->id()] = smith_shop_hover_texture;
 	}
+	// back texture
+	{
+
+		Texture* back_normal_texture = new Texture("Texture.Back.Normal", "Assets/back.normal.png", renderer);
+		_assets[back_normal_texture->id()] = back_normal_texture;
+
+		Texture* back_hover_texture = new Texture("Texture.Back.Hover", "Assets/back.hover.png", renderer);
+		_assets[back_hover_texture->id()] = back_hover_texture;
+	}
 	// fire texture
 	{
 		const int frame_count = 5;

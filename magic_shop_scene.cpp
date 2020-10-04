@@ -3,7 +3,7 @@
 #include "square_button.h"
 
 Magic_Shop_Scene::Magic_Shop_Scene(Save* save)
-	: Scene("Village")
+	: Scene("Shop.Magic")
 {
 
 	_red = 245;
@@ -50,7 +50,7 @@ Magic_Shop_Scene::Magic_Shop_Scene(Save* save)
 	Game_Object* back_message = new Text_Message("Message.Back", "Back To Village ", 30, true, color);
 	back_message->set_translation(Vector_2D(120.f, 700.f));
 	_game_objects[back_message->id()] = back_message;
-	Game_Object* back_button = new Square_Button(100, 40, "Button.Back", "Texture.Shop.Magic.Normal", "Texture.Shop.Magic.Hover");
+	Game_Object* back_button = new Square_Button(100, 40, "Button.Back", "Texture.Back.Normal", "Texture.Back.Hover");
 	back_button->set_translation(Vector_2D(600.f, 700.f));
 	_game_objects[back_button->id()] = back_button;
 }
